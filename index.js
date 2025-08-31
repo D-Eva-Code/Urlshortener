@@ -1,10 +1,17 @@
 
-require('dotenv').config();
-const express = require('express');
-const cors = require('cors');
-const { urlencoded } = require('body-parser');
+// require('dotenv').config();
+// const express = require('express');
+// const cors = require('cors');
+import express from "express";
+import cors from "cors";
+// const { urlencoded } = require('body-parser');
+import bodyParser from "body-parser";
+const { urlencoded } = bodyParser;
 const app = express();
 import dns from "dns";
+import dotenv from "dotenv";
+dotenv.config();
+
 // Basic Configuration
 const port = process.env.PORT || 3000;
 
