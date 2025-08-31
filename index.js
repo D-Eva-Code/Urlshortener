@@ -22,43 +22,39 @@ app.get('/api/hello', function(req, res) {
 
 app.use(express.urlencoded({extended:false}));
 
-
-app.get('/api/shorturl/:id',(req, res)=>{
-   const posturl= req.body.url;
-   let url= req.params.id;
-   
+ let counter=1;
+  let short_url={};
+  let idtourl={};
   
-  if (posturl!==url){
+app.get('/api/shorturl/:id',(req, res)=>{
+   let id= req.params.id;
+   const url= idtourl[id];
+  
+  if (!url){
     res.json({error: "No short URL found for the given input"});  }
     else{
-    res.redirect(posturl);
+    res.redirect(url);
   }
 
 })
 app.post('/api/shorturl/',(req, res)=>{
   const posturl= req.body.url;
-  let counter=1;
-  let short_url={};
+ 
 
-function addcount(){
-  if (short_url[posturl]!==undefined){//if posturl already has a short url
-    return short_url[posturl]=counter;
-  }
-  else{
-      short_url[posturl]=counter++;//if its a new url assign it the current counter value
-      // counter++;
-      return short_url[posturl];
-  }
-
-  }
-  if (!posturl){
+if (!posturl){
     res.json({error: "invalid url"});
   }
 
+if (short_url[posturl]){//if posturl already has a short url
+  short_url[posturl]=counter;
+}
   else{
-    res.json({"original_url":posturl, "short_url":addcount()});
+    const id= counter++;
+    short_url[posturl]=id;
+    idtourl[id]=posturl;//mapping id to url
+    return id;
   }
-  req.params.id==counter;
+ res.json({"original_url":posturl, "short_url":short_url[posturl]});
 
 });
  
