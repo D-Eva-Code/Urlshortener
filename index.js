@@ -39,13 +39,7 @@ app.get('/api/shorturl/:id',(req, res)=>{
 })
 app.post('/api/shorturl/',(req, res)=>{
   const posturl= req.body.url;
- 
-
-if (!posturl){
-    res.json({error: "invalid url"});
-  }
-
-// if (short_url[posturl]){//if posturl already has a short url
+ // if (short_url[posturl]){//if posturl already has a short url
 //   short_url[posturl]=counter;
 // }
 //   else{
@@ -54,7 +48,18 @@ if (!posturl){
     idtourl[id]=posturl;//mapping id to url
     counter++;
   // }
- res.json({"original_url":posturl, "short_url":short_url[posturl]});
+
+if (!posturl){
+  dns.lookup(posturl,(err, address, family)=>{//handle errors for invalid urls
+    if (err){
+      res.json({error: "invalid url"});
+    }
+    else{
+       res.json({"original_url":posturl, "short_url":short_url[posturl]});
+    }
+  })
+    
+  }
 
 });
  
