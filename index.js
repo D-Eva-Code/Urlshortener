@@ -50,18 +50,28 @@ app.post('/api/shorturl/',(req, res)=>{
   // }
 
 if (!posturl){
-  dns.lookup(posturl,(err, address, family)=>{//handle errors for invalid urls
-    if (err){
+  
       res.json({error: "invalid url"});
     }
+
+    let hostname;
+    try{
+      hostname= new URL(posturl).hostname;
+    }
+    catch(e){
+      res.json({error: "invalid url"});
+    }
+
+    dns.lookup(hostname, (err, address)=>{
+      if (err){
+        res.json({"error": "invalid url"});
+      }
     else{
        res.json({"original_url":posturl, "short_url":short_url[posturl]});
     }
-  })
+      });
+  });
     
-  }
-
-});
  
   // let url= req.params.id;
   // let short_url=1;
