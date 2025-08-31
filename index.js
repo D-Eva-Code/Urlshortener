@@ -45,15 +45,15 @@ if (!posturl){
     res.json({error: "invalid url"});
   }
 
-if (short_url[posturl]){//if posturl already has a short url
-  short_url[posturl]=counter;
-}
-  else{
-    const id= counter++;
+// if (short_url[posturl]){//if posturl already has a short url
+//   short_url[posturl]=counter;
+// }
+//   else{
+    const id= counter;
     short_url[posturl]=id;
     idtourl[id]=posturl;//mapping id to url
-    return id;
-  }
+    counter++;
+  // }
  res.json({"original_url":posturl, "short_url":short_url[posturl]});
 
 });
