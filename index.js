@@ -3,7 +3,7 @@ const express = require('express');
 const cors = require('cors');
 const { urlencoded } = require('body-parser');
 const app = express();
-
+import dns from "dns";
 // Basic Configuration
 const port = process.env.PORT || 3000;
 
